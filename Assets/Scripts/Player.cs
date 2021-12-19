@@ -1,10 +1,13 @@
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
     public float speed = 5f;
     public Bullet bulletPrefab;
+    public Sprite[] deathSprites;
 
+    public Action onPlayerDestroyed;
 
     private bool bulletSpawned = false;
 
@@ -28,13 +31,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy")
+            || collision.gameObject.layer == LayerMask.NameToLayer("Missile"))
+        {
+            onPlayerDestroyed?.Invoke();
+        }
+    }
+
     protected void FireBullet()
     {
         if (!bulletSpawned)
         {
             var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             bullet.onDestroy = () => { bulletSpawned = false; };
-
             bulletSpawned = true;
         }
     }

@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    [Header("Enemy Grid Settings")]
     public int rows = 5;
     public int columns = 11;
     public float spacingUnit = 2.0f;
     
-    
+    [Header("Enemy Settings")]
     public Enemy[] enemyPrefabs;
     public AnimationCurve enemySpeed;
     public float missileAttackRate = 1.0f;
     public Bullet missilePrefab;
 
-    public int enemiesKilled { get; private set; }
 
+    private int enemiesKilled;
     private int totalEnemies => rows * columns; 
     private float enemiesKilledPercentage => enemiesKilled / (float)totalEnemies;
-
     private int remainingEnemies => totalEnemies - enemiesKilled;
 
     private Vector3 direction = Vector3.right;
@@ -92,9 +92,9 @@ public class EnemyManager : MonoBehaviour
             if (!enemy.gameObject.activeInHierarchy)
                 continue;
 
-            if (Random.value < (1.0f / (float)remainingEnemies))
+            if (Random.value < (1.0f / remainingEnemies))
             {
-                var missile = Instantiate(missilePrefab, enemy.position, Quaternion.identity);
+                Instantiate(missilePrefab, enemy.position, Quaternion.identity);
                 break;
             }
         }
