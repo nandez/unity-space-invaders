@@ -5,10 +5,13 @@ public class EnemyManager : MonoBehaviour
     public int rows = 5;
     public int columns = 11;
     public float spacingUnit = 2.0f;
-    public float enemySpeed = 1.0f;
 
+    
     public Enemy[] enemyPrefabs;
+    public AnimationCurve enemySpeed;
 
+    public int EnemiesKilled { get; private set; }
+    private float enemiesKilledPercentage => EnemiesKilled / (float)(rows * columns);
 
     private Vector3 direction = Vector3.right;
 
@@ -19,7 +22,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        transform.position += direction * enemySpeed * Time.deltaTime;
+        transform.position += direction * enemySpeed.Evaluate(enemiesKilledPercentage) * Time.deltaTime;
 
         var leftMapBorder = Camera.main.ViewportToWorldPoint(Vector3.zero);
         var rightMapBorder = Camera.main.ViewportToWorldPoint(Vector3.right);
@@ -52,6 +55,8 @@ public class EnemyManager : MonoBehaviour
             for (int c = 0; c < columns; c++)
             {
                 var enemy = Instantiate(enemyPrefabs[r], transform);
+                enemy.onDestroy += () => EnemiesKilled++;
+
                 var position = rPosition;
 
                 position.x += c * spacingUnit;

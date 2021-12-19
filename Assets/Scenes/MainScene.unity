@@ -925,13 +925,36 @@ MonoBehaviour:
   rows: 5
   columns: 11
   spacingUnit: 2
-  enemySpeed: 1
   enemyPrefabs:
   - {fileID: 783675496873090474, guid: 806cc5c557e821b4d80326a2dcd0ade2, type: 3}
   - {fileID: 783675496873090474, guid: 806cc5c557e821b4d80326a2dcd0ade2, type: 3}
   - {fileID: 8765706569430754385, guid: 2d94abdea863c704f916df29c9494ef1, type: 3}
   - {fileID: 8765706569430754385, guid: 2d94abdea863c704f916df29c9494ef1, type: 3}
   - {fileID: 6265218959031705882, guid: bbbf45a0df3d9244e82a2a84cef85806, type: 3}
+  enemySpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 3
+      inSlope: 2.6978226
+      outSlope: 2.6978226
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.017543852
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1904918475
 Transform:
   m_ObjectHideFlags: 0
