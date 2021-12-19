@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private int currentSpriteIndex = 0;
 
+
+  
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -18,10 +20,7 @@ public class Enemy : MonoBehaviour
         InvokeRepeating(nameof(HandleSpriteAnimation), animationSpeed, animationSpeed);
     }
 
-    private void Update()
-    {
-        
-    }
+    
 
     protected void HandleSpriteAnimation()
     {

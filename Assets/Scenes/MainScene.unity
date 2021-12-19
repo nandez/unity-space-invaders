@@ -909,6 +909,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 5
   columns: 11
+  spacingUnit: 2
   enemyPrefabs:
   - {fileID: 783675496873090474, guid: 806cc5c557e821b4d80326a2dcd0ade2, type: 3}
   - {fileID: 783675496873090474, guid: 806cc5c557e821b4d80326a2dcd0ade2, type: 3}
@@ -923,7 +924,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1904918473}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
