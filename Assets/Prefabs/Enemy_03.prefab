@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4892432741804397425, guid: 28bfdd995a5416d49b0e31411a010860, type: 3}
+      propertyPath: ScorePoints
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4892432741804397425, guid: 28bfdd995a5416d49b0e31411a010860, type: 3}
       propertyPath: sprites.Array.size
       value: 2
       objectReference: {fileID: 0}

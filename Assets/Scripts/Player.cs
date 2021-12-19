@@ -7,9 +7,15 @@ public class Player : MonoBehaviour
     public Bullet bulletPrefab;
     public Sprite[] deathSprites;
 
-    public Action onPlayerDestroyed;
+    public Action onHit;
 
     private bool bulletSpawned = false;
+    private Vector3 initialPosition;
+
+    private void Start()
+    {
+        initialPosition = transform.position;
+    }
 
     private void Update()
     {
@@ -36,7 +42,7 @@ public class Player : MonoBehaviour
         if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy")
             || collision.gameObject.layer == LayerMask.NameToLayer("Missile"))
         {
-            onPlayerDestroyed?.Invoke();
+            onHit?.Invoke();
         }
     }
 
@@ -48,5 +54,10 @@ public class Player : MonoBehaviour
             bullet.onDestroy = () => { bulletSpawned = false; };
             bulletSpawned = true;
         }
+    }
+
+    public void ResetPosition()
+    {
+        transform.position = initialPosition;
     }
 }

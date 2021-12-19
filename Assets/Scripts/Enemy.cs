@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     public float animationSpeed = 0.75f;
     public Action onDestroy;
 
+    public int ScorePoints = 0;
 
     private SpriteRenderer spriteRenderer;
     private int currentSpriteIndex = 0;

@@ -1,21 +1,28 @@
+using System;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
     [Header("Enemy Grid Settings")]
     public int rows = 5;
+
     public int columns = 11;
     public float spacingUnit = 2.0f;
-    
+
     [Header("Enemy Settings")]
     public Enemy[] enemyPrefabs;
+
     public AnimationCurve enemySpeed;
     public float missileAttackRate = 1.0f;
     public Bullet missilePrefab;
 
+    public bool aiEnabled = true;
+
+    public Action onEnemiesCleared;
+    public int Score { get; private set; }
 
     private int enemiesKilled;
-    private int totalEnemies => rows * columns; 
+    private int totalEnemies => rows * columns;
     private float enemiesKilledPercentage => enemiesKilled / (float)totalEnemies;
     private int remainingEnemies => totalEnemies - enemiesKilled;
 
@@ -33,21 +40,23 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        transform.position += direction * enemySpeed.Evaluate(enemiesKilledPercentage) * Time.deltaTime;
-
-        var leftMapBorder = Camera.main.ViewportToWorldPoint(Vector3.zero);
-        var rightMapBorder = Camera.main.ViewportToWorldPoint(Vector3.right);
-
-
-        foreach (Transform enemy in transform)
+        if (aiEnabled)
         {
-            if (!enemy.gameObject.activeInHierarchy)
-                continue;
+            transform.position += direction * enemySpeed.Evaluate(enemiesKilledPercentage) * Time.deltaTime;
 
-            if ((direction == Vector3.right && enemy.position.x >= (rightMapBorder.x - 1.0f))
-                || (direction == Vector3.left && enemy.position.x <= (leftMapBorder.x + 1.0f)))
+            var leftMapBorder = Camera.main.ViewportToWorldPoint(Vector3.zero);
+            var rightMapBorder = Camera.main.ViewportToWorldPoint(Vector3.right);
+
+            foreach (Transform enemy in transform)
             {
-                MoveEnemiesDown();
+                if (!enemy.gameObject.activeInHierarchy)
+                    continue;
+
+                if ((direction == Vector3.right && enemy.position.x >= (rightMapBorder.x - 1.0f))
+                    || (direction == Vector3.left && enemy.position.x <= (leftMapBorder.x + 1.0f)))
+                {
+                    MoveEnemiesDown();
+                }
             }
         }
     }
@@ -66,7 +75,17 @@ public class EnemyManager : MonoBehaviour
             for (int c = 0; c < columns; c++)
             {
                 var enemy = Instantiate(enemyPrefabs[r], transform);
-                enemy.onDestroy += () => enemiesKilled++;
+                enemy.onDestroy += () =>
+                {
+                    enemiesKilled++;
+                    Score += enemy.ScorePoints;
+
+                    if (remainingEnemies == 0)
+                    {
+                        aiEnabled = false;
+                        onEnemiesCleared?.Invoke();
+                    }
+                };
 
                 var position = rPosition;
 
@@ -92,7 +111,7 @@ public class EnemyManager : MonoBehaviour
             if (!enemy.gameObject.activeInHierarchy)
                 continue;
 
-            if (Random.value < (1.0f / remainingEnemies))
+            if (UnityEngine.Random.value < (1.0f / remainingEnemies))
             {
                 Instantiate(missilePrefab, enemy.position, Quaternion.identity);
                 break;

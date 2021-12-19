@@ -1,37 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public Player player;
+    public EnemyManager enemyManager;
 
-    public Text gameMessage;
+    public Text livesTxt;
+    public Text scoreTxt;
 
     private int playerLives = 3;
 
-    public void Awake()
+    private void Start()
     {
-        player = GetComponent<Player>();
-        player.onPlayerDestroyed += PlayerDestroyed;
+        player.onHit += PlayerOnHitEventHandler;
+        enemyManager.onEnemiesCleared += StageClearedEventHandler;
     }
 
-    public void PlayerDestroyed()
+    private void Update()
+    {
+        scoreTxt.text = $"SCORE {enemyManager.Score}";
+    }
+
+    protected void PlayerOnHitEventHandler()
     {
         playerLives--;
-        
-        if(playerLives <= 0)
+
+        if (playerLives == 0)
         {
-            // Show game over.
-            Debug.Log("GAME OVER!");
+            livesTxt.text = $"LIVES 0";
+            Debug.Log("Show GAMEVOER");
         }
         else
         {
-            // UPdate GUI
-            Debug.Log("LOST LIVE");
+            livesTxt.text = $"LIVES {playerLives}";
+            player.ResetPosition();
         }
+    }
+
+    protected void StageClearedEventHandler()
+    {
+
     }
 
 }
