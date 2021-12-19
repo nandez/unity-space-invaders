@@ -303,7 +303,8 @@ GameObject:
   - component: {fileID: 323475240}
   - component: {fileID: 323475239}
   - component: {fileID: 323475238}
-  m_Layer: 0
+  - component: {fileID: 323475241}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -403,6 +404,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &323475241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323475237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80ed404d3f042249b85c0bb519aa51f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  bulletPrefab: {fileID: 1757091780068894368, guid: aac78b234c06dfe41afecfef68eeab1c, type: 3}
 --- !u!1 &426483114
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,6 +925,7 @@ MonoBehaviour:
   rows: 5
   columns: 11
   spacingUnit: 2
+  enemySpeed: 1
   enemyPrefabs:
   - {fileID: 783675496873090474, guid: 806cc5c557e821b4d80326a2dcd0ade2, type: 3}
   - {fileID: 783675496873090474, guid: 806cc5c557e821b4d80326a2dcd0ade2, type: 3}
