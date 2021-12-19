@@ -5,19 +5,30 @@ public class EnemyManager : MonoBehaviour
     public int rows = 5;
     public int columns = 11;
     public float spacingUnit = 2.0f;
-
+    
     
     public Enemy[] enemyPrefabs;
     public AnimationCurve enemySpeed;
+    public float missileAttackRate = 1.0f;
+    public Bullet missilePrefab;
 
-    public int EnemiesKilled { get; private set; }
-    private float enemiesKilledPercentage => EnemiesKilled / (float)(rows * columns);
+    public int enemiesKilled { get; private set; }
+
+    private int totalEnemies => rows * columns; 
+    private float enemiesKilledPercentage => enemiesKilled / (float)totalEnemies;
+
+    private int remainingEnemies => totalEnemies - enemiesKilled;
 
     private Vector3 direction = Vector3.right;
 
     private void Awake()
     {
         GenerateEnemyLayout();
+    }
+
+    private void Start()
+    {
+        InvokeRepeating(nameof(FireMissiles), missileAttackRate, missileAttackRate);
     }
 
     private void Update()
@@ -55,7 +66,7 @@ public class EnemyManager : MonoBehaviour
             for (int c = 0; c < columns; c++)
             {
                 var enemy = Instantiate(enemyPrefabs[r], transform);
-                enemy.onDestroy += () => EnemiesKilled++;
+                enemy.onDestroy += () => enemiesKilled++;
 
                 var position = rPosition;
 
@@ -72,5 +83,20 @@ public class EnemyManager : MonoBehaviour
         var pos = transform.position;
         pos.y -= 1.0f;
         transform.position = pos;
+    }
+
+    protected void FireMissiles()
+    {
+        foreach (Transform enemy in transform)
+        {
+            if (!enemy.gameObject.activeInHierarchy)
+                continue;
+
+            if (Random.value < (1.0f / (float)remainingEnemies))
+            {
+                var missile = Instantiate(missilePrefab, enemy.position, Quaternion.identity);
+                break;
+            }
+        }
     }
 }
