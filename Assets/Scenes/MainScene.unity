@@ -1263,5 +1263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da0d2400caff4e74f9c7794ede30e690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipAppearInterval: 5
+  shipAppearInterval: 25
   shipSpeed: 5
+  movementEnabled: 0

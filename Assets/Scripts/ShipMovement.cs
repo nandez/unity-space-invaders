@@ -7,7 +7,8 @@ public class ShipMovement : MonoBehaviour
     public float shipSpeed = 7.5f;
     public Action onDestroy;
 
-    private bool movementEnabled = false;
+    public bool movementEnabled = false;
+
     private Vector3 direction = Vector3.right;
     private Vector3 initialPosition;
 
@@ -44,18 +45,24 @@ public class ShipMovement : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Laser"))
         {
             onDestroy?.Invoke();
-
             gameObject.SetActive(false);
-            movementEnabled = false;
-            transform.position = initialPosition;
-            direction = Vector3.right;
-            Invoke(nameof(EnableShipMovement), shipAppearInterval);
+            
+            ResetShip();
         }
     }
 
     protected void EnableShipMovement()
     {
         movementEnabled = true;
+    }
+
+    public void ResetShip()
+    {
         gameObject.SetActive(true);
+        movementEnabled = false;
+        transform.position = initialPosition;
+        direction = Vector3.right;
+
+        Invoke(nameof(EnableShipMovement), shipAppearInterval);
     }
 }

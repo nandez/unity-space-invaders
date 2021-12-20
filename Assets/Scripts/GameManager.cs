@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     protected void PlayerOnHitEventHandler()
     {
         enemyManager.active = false;
+        enemyManager.ship.movementEnabled = false;
         player.alive = false;
 
         playerLives--;
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
     {
         player.ResetState();
         enemyManager.active = true;
+        enemyManager.ship.ResetShip();
     }
 
 }

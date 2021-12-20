@@ -15,7 +15,9 @@ public class Player : MonoBehaviour
     private int currentDeathSpriteIndex;
     private bool bulletSpawned = false;
     private Vector3 initialPosition;
-    
+
+    private Vector3 leftMapBorder;
+    private Vector3 rightMapBorder;
 
     private void Start()
     {
@@ -24,23 +26,35 @@ public class Player : MonoBehaviour
         initialPosition = transform.position;
 
         InvokeRepeating(nameof(HandleDestroyAnimation), 0, 0.25f);
+
+        leftMapBorder = Camera.main.ViewportToWorldPoint(Vector3.zero);
+        rightMapBorder = Camera.main.ViewportToWorldPoint(Vector3.right);
     }
 
     private void Update()
     {
-        var xMovement = Input.GetAxisRaw("Horizontal");
-
-        if (xMovement > 0)
+        if (alive)
         {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-        else if (xMovement < 0)
-        {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        }
+            var xMovement = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-            FireBullet();
+            if (xMovement > 0)
+            {
+                var newPosition = transform.position + Vector3.right * speed * Time.deltaTime;
+
+                if (newPosition.x <= (rightMapBorder.x - 1.0f))
+                    transform.position = newPosition;
+            }
+            else if (xMovement < 0)
+            {
+                var newPosition = transform.position + Vector3.left * speed * Time.deltaTime;
+
+                if (newPosition.x >= (leftMapBorder.x + 1.0f))
+                    transform.position += Vector3.left * speed * Time.deltaTime;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                FireBullet();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
