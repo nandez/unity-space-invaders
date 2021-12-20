@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
 
     protected void PlayerOnHitEventHandler()
     {
+        enemyManager.active = false;
+        player.alive = false;
+
         playerLives--;
 
         if (playerLives == 0)
@@ -34,13 +37,19 @@ public class GameManager : MonoBehaviour
         else
         {
             livesTxt.text = $"LIVES {playerLives}";
-            player.ResetPosition();
+            Invoke(nameof(NewRound), 3.0f);
         }
     }
 
     protected void StageClearedEventHandler()
     {
 
+    }
+
+    protected void NewRound()
+    {
+        player.ResetState();
+        enemyManager.active = true;
     }
 
 }

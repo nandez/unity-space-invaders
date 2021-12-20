@@ -16,7 +16,7 @@ public class EnemyManager : MonoBehaviour
     public float missileAttackRate = 1.0f;
     public Bullet missilePrefab;
 
-    public bool aiEnabled = true;
+    public bool active = true;
 
     public Action onEnemiesCleared;
     public int Score { get; private set; }
@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        if (aiEnabled)
+        if (active)
         {
             transform.position += direction * enemySpeed.Evaluate(enemiesKilledPercentage) * Time.deltaTime;
 
@@ -82,7 +82,7 @@ public class EnemyManager : MonoBehaviour
 
                     if (remainingEnemies == 0)
                     {
-                        aiEnabled = false;
+                        active = false;
                         onEnemiesCleared?.Invoke();
                     }
                 };
@@ -106,15 +106,18 @@ public class EnemyManager : MonoBehaviour
 
     protected void FireMissiles()
     {
-        foreach (Transform enemy in transform)
+        if (active)
         {
-            if (!enemy.gameObject.activeInHierarchy)
-                continue;
-
-            if (UnityEngine.Random.value < (1.0f / remainingEnemies))
+            foreach (Transform enemy in transform)
             {
-                Instantiate(missilePrefab, enemy.position, Quaternion.identity);
-                break;
+                if (!enemy.gameObject.activeInHierarchy)
+                    continue;
+
+                if (UnityEngine.Random.value < (1.0f / remainingEnemies))
+                {
+                    Instantiate(missilePrefab, enemy.position, Quaternion.identity);
+                    break;
+                }
             }
         }
     }
