@@ -364,7 +364,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   bulletPrefab: {fileID: 1757091780068894368, guid: aac78b234c06dfe41afecfef68eeab1c, type: 3}
-  deathSprites: []
+  deathSprites:
+  - {fileID: 21300000, guid: 52522472c19e14c42819e89b83c0ec38, type: 3}
+  - {fileID: 21300000, guid: df7f97d5381a7e14b8f71991a0e5d104, type: 3}
+  alive: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,7 +1074,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   missileAttackRate: 1
   missilePrefab: {fileID: 7238914646310921446, guid: 71cd57e6582a9fb40b8c54e2f704b4b2, type: 3}
-  aiEnabled: 1
+  ship: {fileID: 2050433879}
+  active: 1
 --- !u!4 &1904918475
 Transform:
   m_ObjectHideFlags: 0
@@ -1146,6 +1150,7 @@ GameObject:
   - component: {fileID: 2050433877}
   - component: {fileID: 2050433876}
   - component: {fileID: 2050433875}
+  - component: {fileID: 2050433879}
   m_Layer: 0
   m_Name: EnemyShip
   m_TagString: Untagged
@@ -1239,10 +1244,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050433874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 12, z: 0}
+  m_LocalPosition: {x: -20, y: 12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2050433879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050433874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da0d2400caff4e74f9c7794ede30e690, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipAppearInterval: 5
+  shipSpeed: 5

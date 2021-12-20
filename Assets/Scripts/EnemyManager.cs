@@ -16,6 +16,8 @@ public class EnemyManager : MonoBehaviour
     public float missileAttackRate = 1.0f;
     public Bullet missilePrefab;
 
+    public ShipMovement ship;
+
     public bool active = true;
 
     public Action onEnemiesCleared;
@@ -36,6 +38,8 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         InvokeRepeating(nameof(FireMissiles), missileAttackRate, missileAttackRate);
+
+        ship.onDestroy += HandleShipOnDestroyEvent;
     }
 
     private void Update()
@@ -120,5 +124,11 @@ public class EnemyManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    protected void HandleShipOnDestroyEvent()
+    {
+        var possibleScores = new int[3] {50, 100, 150};
+        Score += possibleScores[UnityEngine.Random.Range(0, possibleScores.Length - 1)];
     }
 }
