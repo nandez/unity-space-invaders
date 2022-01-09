@@ -67,6 +67,7 @@ public class ShipMovement : MonoBehaviour
 
     public void ResetShip()
     {
+        audioManager.StopSound(shipSound);
         gameObject.SetActive(true);
         movementEnabled = false;
         transform.position = initialPosition;
