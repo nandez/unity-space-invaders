@@ -7,8 +7,11 @@ public class Enemy : MonoBehaviour
     public float animationSpeed = 0.75f;
     public Action onDestroy;
 
+    public string enemyKilledSound = "enemy_killed";
+
     public int ScorePoints = 0;
 
+    private AudioManager audioManager;
     private SpriteRenderer spriteRenderer;
     private int currentSpriteIndex = 0;
 
@@ -16,6 +19,10 @@ public class Enemy : MonoBehaviour
   
     private void Awake()
     {
+        audioManager = AudioManager.instance;
+        if (audioManager == null)
+            Debug.LogError("No AudioManager was found in scene...");
+
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -28,6 +35,8 @@ public class Enemy : MonoBehaviour
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Laser"))
         {
+            audioManager.PlaySound(enemyKilledSound);
+
             onDestroy?.Invoke();
             gameObject.SetActive(false);
         }

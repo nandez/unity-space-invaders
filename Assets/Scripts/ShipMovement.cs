@@ -9,11 +9,18 @@ public class ShipMovement : MonoBehaviour
 
     public bool movementEnabled = false;
 
+    public string shipSound = "ufo";
+
+    private AudioManager audioManager;
     private Vector3 direction = Vector3.right;
     private Vector3 initialPosition;
 
     private void Start()
     {
+        audioManager = AudioManager.instance;
+        if (audioManager == null)
+            Debug.LogError("No AudioManager found in scene...");
+
         initialPosition = transform.position;
 
         Invoke(nameof(EnableShipMovement), shipAppearInterval);
@@ -35,6 +42,7 @@ public class ShipMovement : MonoBehaviour
                 // Damos vuelta la dirección y deshabilitamos el movimiento hasta el próximo intérvalo.
                 direction.x *= -1.0f;
                 movementEnabled = false;
+                audioManager.StopSound(shipSound);
                 Invoke(nameof(EnableShipMovement), shipAppearInterval);
             }
         }
@@ -54,6 +62,7 @@ public class ShipMovement : MonoBehaviour
     protected void EnableShipMovement()
     {
         movementEnabled = true;
+        audioManager.PlaySound(shipSound);
     }
 
     public void ResetShip()

@@ -7,9 +7,13 @@ public class Player : MonoBehaviour
     public Bullet bulletPrefab;
     public Sprite[] deathSprites;
 
+    public string playerShootSound = "shoot";
+    public string playerKilledSound = "explosion";
+
     public Action onHit;
     public bool alive = true;
 
+    private AudioManager audioManager;
     private SpriteRenderer spriteRenderer;
     private Sprite defaultSprite;
     private int currentDeathSpriteIndex;
@@ -21,6 +25,10 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        audioManager = AudioManager.instance;
+        if (audioManager == null)
+            Debug.LogError("No audiomanager found in scene...");
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         defaultSprite = spriteRenderer.sprite;
         initialPosition = transform.position;
@@ -62,6 +70,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy")
             || collision.gameObject.layer == LayerMask.NameToLayer("Missile"))
         {
+            audioManager.PlaySound(playerKilledSound);
             onHit?.Invoke();
         }
     }
@@ -70,6 +79,7 @@ public class Player : MonoBehaviour
     {
         if (!bulletSpawned)
         {
+            audioManager.PlaySound(playerShootSound);
             var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             bullet.onDestroy = () => { bulletSpawned = false; };
             bulletSpawned = true;
